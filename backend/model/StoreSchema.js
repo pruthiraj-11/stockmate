@@ -12,6 +12,14 @@ const StoreSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
+    cost: {
+      type: Number,
+      required: true,
+    },
+    sell: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

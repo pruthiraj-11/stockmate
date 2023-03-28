@@ -1,18 +1,18 @@
 const Product = require("../model/ProductSchema");
 
 const addProduct = async (req, res) => {
-  const { name, description, manufacturer } = req.body;
+  const { name, stock, manufacturer } = req.body;
 
-  if (!name || !description || !manufacturer) {
+  if (!name || !manufacturer) {
     return res.status(422).json({ error: "Please filled the all field" });
   } else {
-    console.log(name, description, manufacturer);
+    console.log(name, stock, manufacturer);
   }
 
   try {
     const newProduct = new Product({
       name,
-      description,
+      stock: 0,
       manufacturer,
     });
 
@@ -66,16 +66,16 @@ const deleteProducts = async (req, res) => {
 
 const updateProducts = async (req, res) => {
   const { id } = req.params;
-  const { name, description, manufacturer } = req.body;
+  const { name, stock, manufacturer } = req.body;
 
-  // if (!name || !description || !manufacturer) {
+  // if (!name || !stock || !manufacturer) {
   //   return res.status(422).json({ error: "Please fill all fields" });
   // }
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
-      { name, description, manufacturer },
+      { name, stock, manufacturer },
       { new: true }
     );
 

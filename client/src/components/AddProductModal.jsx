@@ -6,7 +6,7 @@ const AddProductModal = () => {
   const [productsdata, setProductsData] = useState({
     name: "",
     manufacturer: "",
-    description: "",
+    stock: "",
   });
 
   const addProducts = async (e) => {
@@ -19,7 +19,7 @@ const AddProductModal = () => {
       );
       console.log(res);
       setShowModal(false);
-      setProductsData({ name: "", manufacturer: "", description: "" });
+      setProductsData({ name: "", manufacturer: "", stock: "" });
       alert("successful insert");
     } catch (error) {
       alert(error.response.data.error);
@@ -123,19 +123,20 @@ const AddProductModal = () => {
                             for="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
-                            Cost Price
+                            Stock
                           </label>
                           <input
                             type="number"
                             name="price"
                             id="price"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value="2999"
-                            placeholder="$299"
+                            value={productsdata.stock}
+                            onChange={handleInputs}
+                            placeholder="Enter"
                             required
                           />
-                        </div>
-                        <div className="w-full">
+                        </div> */}
+                        {/* <div className="w-full">
                           <label
                             for="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
@@ -187,7 +188,7 @@ const AddProductModal = () => {
                             required
                           />
                         </div> */}
-                        <div className="sm:col-span-2">
+                        {/* <div className="sm:col-span-2">
                           <label
                             htmlFor="description"
                             className="block mb-2 text-sm font-medium text-gray-900 "
@@ -203,7 +204,7 @@ const AddProductModal = () => {
                             name="description"
                             onChange={handleInputs}
                           ></textarea>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="flex items-center justify-center space-x-4">
                         {/* <button

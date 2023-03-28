@@ -12,10 +12,8 @@ const ProductSchema = new mongoose.Schema(
       required: true,
       max: 20,
     },
-    description: {
-      type: String,
-      required: true,
-      max: 50,
+    stock: {
+      type: Number,
     },
   },
   { timestamps: true }

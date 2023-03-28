@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const UpdateProductModal = ({ pid, pname, pdescription, pmanufacturer }) => {
+const UpdateProductModal = ({ pid, pname, pstock, pmanufacturer }) => {
   const [showModal, setShowModal] = useState(false);
   const [productsdata, setProductsData] = useState({
     name: pname,
     manufacturer: pmanufacturer,
-    description: pdescription,
+    stock: pstock,
   });
 
-  const { name, manufacturer, description } = productsdata;
+  const { name, manufacturer, stock } = productsdata;
 
   const updateProducts = async (e) => {
     e.preventDefault(e);
@@ -18,7 +18,7 @@ const UpdateProductModal = ({ pid, pname, pdescription, pmanufacturer }) => {
       const res = await axios.patch(`http://localhost:4000/products/${pid}`, {
         name,
         manufacturer,
-        description,
+        stock,
       });
       console.log(res);
       setShowModal(false);
@@ -119,24 +119,25 @@ const UpdateProductModal = ({ pid, pname, pdescription, pmanufacturer }) => {
                             required
                           />
                         </div>
-                        {/* <div className="w-full">
+                        <div className="sm:col-span-2 flex flex-col items-start">
                           <label
                             for="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
-                            Cost Price
+                            Stock
                           </label>
                           <input
                             type="number"
-                            name="price"
+                            name="stock"
                             id="price"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value="2999"
-                            placeholder="$299"
+                            value={productsdata.stock}
+                            onChange={handleInputs}
+                            placeholder="0"
                             required
                           />
                         </div>
-                        <div className="w-full">
+                        {/*  <div className="w-full">
                           <label
                             for="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
@@ -188,15 +189,15 @@ const UpdateProductModal = ({ pid, pname, pdescription, pmanufacturer }) => {
                             required
                           />
                         </div> */}
-                        <div className="sm:col-span-2 flex flex-col items-start">
+                        {/* <div className="sm:col-span-2 flex flex-col items-start">
                           <label
-                            htmlFor="description"
+                            htmlFor="stock"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
-                            Description
+                            Stock
                           </label>
                           <textarea
-                            id="description"
+                            id="stock"
                             rows="8"
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                             placeholder="Write a product description here..."
@@ -204,7 +205,7 @@ const UpdateProductModal = ({ pid, pname, pdescription, pmanufacturer }) => {
                             name="description"
                             onChange={handleInputs}
                           ></textarea>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="flex items-center justify-center space-x-4">
                         {/* <button

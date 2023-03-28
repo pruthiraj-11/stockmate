@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const Users = require("./model/UsersSchema");
 const productsRoutes = require("./routes/products");
+const storesRoutes = require("./routes/stores");
 const app = express();
 var cors = require("cors");
 
@@ -12,6 +13,7 @@ require("./db/conn");
 app.use(express.json());
 app.use(cors());
 app.use("/products", productsRoutes);
+app.use("/stores", storesRoutes);
 
 app.get("/", (req, res) => {
   res.send("This is home");

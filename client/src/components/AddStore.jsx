@@ -3,23 +3,21 @@ import axios from "axios";
 
 const AddStore = () => {
   const [showModal, setShowModal] = useState(false);
-  const [productsdata, setProductsData] = useState({
+  const [storesdata, setStoresData] = useState({
     name: "",
-    manufacturer: "",
-    description: "",
+    address: "",
+    cost: "",
+    sell: "",
   });
 
-  const addProducts = async (e) => {
+  const addStore = async (e) => {
     e.preventDefault();
-    console.log(productsdata);
+    console.log(storesdata);
     try {
-      const res = await axios.post(
-        "http://localhost:4000/products",
-        productsdata
-      );
+      const res = await axios.post("http://localhost:4000/stores", storesdata);
       console.log(res);
       setShowModal(false);
-      setProductsData({ name: "", manufacturer: "", description: "" });
+      setStoresData({ name: "", address: "", cost: "", sell: "" });
       alert("successful insert");
     } catch (error) {
       alert(error.response.data.error);
@@ -33,9 +31,9 @@ const AddStore = () => {
     let value = e.target.value;
 
     if (e.target.tagName === "INPUT") {
-      setProductsData({ ...productsdata, [name]: value });
+      setStoresData({ ...storesdata, [name]: value });
     } else if (e.target.tagName === "TEXTAREA") {
-      setProductsData({ ...productsdata, [name]: value });
+      setStoresData({ ...storesdata, [name]: value });
     }
   };
 
@@ -46,7 +44,7 @@ const AddStore = () => {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Add Product
+        Add Store
       </button>
       {showModal ? (
         <>
@@ -72,9 +70,9 @@ const AddStore = () => {
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                         </svg>
                         <span className="sr-only">Close modal</span>
@@ -87,16 +85,15 @@ const AddStore = () => {
                             htmlFor="name"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
-                            Product Name
+                            Store Name
                           </label>
                           <input
                             type="text"
                             name="name"
-                            id="name"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value={productsdata.name}
+                            value={storesdata.name}
                             onChange={handleInputs}
-                            placeholder="Type product name here"
+                            placeholder="Type store name here"
                             required
                           />
                         </div>
@@ -105,53 +102,52 @@ const AddStore = () => {
                             htmlFor="name"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
-                            manufacturer
+                            Address
                           </label>
                           <input
                             type="text"
-                            name="manufacturer"
-                            id="name"
+                            name="address"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value={productsdata.manufacturer}
+                            value={storesdata.address}
                             onChange={handleInputs}
-                            placeholder="Type manufacturer name here"
+                            placeholder="Type store address here"
                             required
                           />
                         </div>
-                        {/* <div className="w-full">
+                        <div className="w-full">
                           <label
-                            for="price"
+                            htmlFor="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
                             Cost Price
                           </label>
                           <input
                             type="number"
-                            name="price"
-                            id="price"
+                            name="cost"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value="2999"
-                            placeholder="$299"
+                            value={storesdata.cost}
+                            onChange={handleInputs}
+                            placeholder="0"
                             required
                           />
                         </div>
                         <div className="w-full">
                           <label
-                            for="price"
+                            htmlFor="price"
                             className="block mb-2 text-sm font-medium text-gray-900 "
                           >
                             Selling Price
                           </label>
                           <input
                             type="number"
-                            name="price"
-                            id="price"
+                            name="sell"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                            value="2999"
-                            placeholder="$299"
+                            value={storesdata.sell}
+                            onChange={handleInputs}
+                            placeholder="0"
                             required
                           />
-                        </div> */}
+                        </div>
                         {/* <div>
                           <label
                             for="manufacturer"
@@ -187,7 +183,7 @@ const AddStore = () => {
                             required
                           />
                         </div> */}
-                        <div className="sm:col-span-2">
+                        {/* <div className="sm:col-span-2">
                           <label
                             htmlFor="description"
                             className="block mb-2 text-sm font-medium text-gray-900 "
@@ -199,11 +195,11 @@ const AddStore = () => {
                             rows="8"
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                             placeholder="Write a product description here..."
-                            value={productsdata.description}
+                            value={storesdata.description}
                             name="description"
                             onChange={handleInputs}
                           ></textarea>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="flex items-center justify-center space-x-4">
                         {/* <button
@@ -227,9 +223,9 @@ const AddStore = () => {
                         <button
                           type="submit"
                           className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                          onClick={addProducts}
+                          onClick={addStore}
                         >
-                          Add product
+                          Add Store
                         </button>
                       </div>
                     </form>

@@ -206,6 +206,7 @@ export default function Inventory(params) {
                     <th className="py-3 px-6">Product ID</th>
                     <th className="py-3 px-6">Product Name</th>
                     <th className="py-3 px-6">Manufacturer</th>
+                    <th className="py-3 px-6">Stock</th>
                     <th className="py-3 px-6">Added Date</th>
                     <th className="py-3 px-6">Modified Date</th>
                   </tr>
@@ -223,6 +224,9 @@ export default function Inventory(params) {
                         {item.manufacturer}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
+                        {item.stock}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
                         {item.createdAt.slice(0, 10)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -236,7 +240,7 @@ export default function Inventory(params) {
                           pid={item._id}
                           pname={item.name}
                           pmanufacturer={item.manufacturer}
-                          pdescription={item.description}
+                          pstock={item.stock}
                         />
                         <button
                           onClick={() => deleteProducts(item._id)}
