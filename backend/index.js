@@ -3,6 +3,9 @@ const express = require("express");
 const Users = require("./model/UsersSchema");
 const productsRoutes = require("./routes/products");
 const storesRoutes = require("./routes/stores");
+const salesRoutes = require("./routes/sales");
+const purchaseRoutes = require("./routes/purchase");
+
 const app = express();
 var cors = require("cors");
 
@@ -14,7 +17,8 @@ app.use(express.json());
 app.use(cors());
 app.use("/products", productsRoutes);
 app.use("/stores", storesRoutes);
-
+app.use("/sales", salesRoutes);
+app.use("/purchase", purchaseRoutes);
 app.get("/", (req, res) => {
   res.send("This is home");
 });

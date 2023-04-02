@@ -7,7 +7,14 @@ export default function Inventory(params) {
   const [productsData, setProductsData] = useState([]);
   useEffect(() => {
     fetchProducts();
+    // console.log(productsData);
   }, [productsData]);
+
+  const manufacturers = productsData.map((item) => {
+    return item.manufacturer;
+  });
+
+  const TotalManufacturers = [...new Set(manufacturers)];
 
   const fetchProducts = async () => {
     try {
@@ -39,16 +46,18 @@ export default function Inventory(params) {
         </h2>
         <div className="mt-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           <div className="m-3 p-1">
-            <h3 className="text-blue-500 font-semibold">Categories</h3>
-            <div className="text-gray-600 mt-1 font-semibold">14</div>
-            <span className="text-gray-400 text-sm">Last 7 days</span>
+            <h3 className="text-blue-500 font-semibold">Manufacturer</h3>
+            <div className="text-gray-600 mt-1 font-semibold">
+              {TotalManufacturers.length}
+            </div>
           </div>
           <div className="m-3 p-1">
             <h3 className="text-orange-500 font-semibold">Total Products</h3>
             <div className="flex">
               <span className="mr-8">
-                <div className="text-gray-600 mt-1 font-semibold">14</div>
-                <span className="text-gray-400 text-sm">Last 7 days</span>
+                <div className="text-gray-600 mt-1 font-semibold">
+                  {productsData.length}
+                </div>
               </span>
               <span>
                 <div className="text-gray-600 mt-1 font-semibold">Rs25000</div>
@@ -61,7 +70,6 @@ export default function Inventory(params) {
             <div className="flex">
               <span className="mr-8">
                 <div className="text-gray-600 mt-1 font-semibold">5</div>
-                <span className="text-gray-400 text-sm">Last 7 days</span>
               </span>
               <span>
                 <div className="text-gray-600 mt-1 font-semibold">Rs2500</div>

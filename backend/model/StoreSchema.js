@@ -24,7 +24,7 @@ const StoreSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Store = mongoose.model("stores", StoreSchema);
+const Store = mongoose.model("Stores", StoreSchema);
 
 // Product.createIndexes();
 

@@ -43,7 +43,12 @@ export default function ManageStores(params) {
               <p className="mb-4 text-base text-neutral-600 ">
                 {store.address}
               </p>
-              {/* <p className="text-xs text-neutral-500">Last updated 3 mins ago</p> */}
+              <span className="text-2xl font-semibold inline-block text-teal-500">
+                Cost {store.cost}
+              </span>
+              <span className="text-2xl font-semibold inline-block text-teal-500">
+                Sell {store.sell}
+              </span>
             </div>
           </div>
         ))}

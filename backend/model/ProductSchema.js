@@ -19,7 +19,7 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Product = mongoose.model("products", ProductSchema);
+const Product = mongoose.model("Products", ProductSchema);
 
 // Product.createIndexes();
 
