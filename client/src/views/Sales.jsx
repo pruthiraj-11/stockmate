@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import UpdateProductModal from "../components/UpdateProductModal";
 import AddSaleModal from "../components/AddSaleModal";
+import UpdateSaleModal from "../components/UpdateSaleModal";
 
-export default function Sales(params) {
-  const [salesdata, setSalesData] = useState([]);
+export default function Sales() {
+  const [salesData, setSalesData] = useState([]);
   const [storesData, setStoresData] = useState([]);
   const [productsData, setProductsData] = useState([]);
+  const [selectedSale, setSelectedSale] = useState(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
   useEffect(() => {
     fetchProducts();
-  }, [productsData]);
-
-  useEffect(() => {
     fetchSales();
-  }, [salesdata]);
-
-  useEffect(() => {
     fetchStores();
-  }, [storesData]);
+  }, []);
 
   const fetchProducts = async () => {
     try {
       const res = await axios.get("http://localhost:4000/products");
       setProductsData(res.data);
-      // console.log(res.data);
     } catch (error) {
       console.log("ERROR", error);
     }
@@ -33,7 +29,7 @@ export default function Sales(params) {
     try {
       const res = await axios.get("http://localhost:4000/sales");
       setSalesData(res.data);
-      // console.log(res.data);
+      console.log(res?.data)
     } catch (error) {
       console.log("ERROR", error);
     }
@@ -42,96 +38,120 @@ export default function Sales(params) {
   const fetchStores = async () => {
     try {
       const res = await axios.get("http://localhost:4000/stores");
-      setStoresData(res.data);
-      // console.log(storesData);
+      setStoresData(res?.data);
     } catch (error) {
       console.log("ERROR", error);
     }
   };
 
-  const deleteProducts = async (id) => {
-    console.log(id);
+  const deleteProduct = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:4000/products/${id}`
-      );
-      console.log(response);
+      await axios.delete(`http://localhost:4000/sales/${id}`);
+      fetchSales();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleUpdateClick = (sale) => {
+    setSelectedSale(sale);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+    setSelectedSale(null);
+  };
+
   return (
     <>
       <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
-        <h2 className=" text-gray-800 font-semibold truncate">Overall Sales</h2>
-        <div className="mt-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-          <div className="m-3 p-1">
-            <h3 className="text-blue-500 font-semibold">Categories</h3>
-            <div className="text-gray-600 mt-1 font-semibold">14</div>
-            <span className="text-gray-400 text-sm">Last 7 days</span>
-          </div>
-          <div className="m-3 p-1">
-            <h3 className="text-orange-500 font-semibold">Total Products</h3>
-            <div className="flex">
-              <span className="mr-8">
-                <div className="text-gray-600 mt-1 font-semibold">14</div>
-                <span className="text-gray-400 text-sm">Last 7 days</span>
-              </span>
-              <span>
-                <div className="text-gray-600 mt-1 font-semibold">Rs25000</div>
-                <span className="text-gray-400 text-sm">Revenue</span>
-              </span>
+        <h2 className="text-gray-800 font-semibold truncate">Overall Sales</h2>
+        {/* ... (Rest of the dashboard cards) */}
+      </div>
+
+      <div className="w-full px-4 py-5 my-3 bg-white rounded-lg shadow">
+        <div className="overflow-x-auto mt-2">
+          <div className="max-w-screen-xl mx-auto px-4">
+            <div className="items-start justify-between md:flex">
+              <div className="max-w-lg">
+                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">Sales</h3>
+              </div>
+              <div className="mt-3 md:mt-0 flex align-middle">
+                <AddSaleModal
+                  storesData={storesData}
+                  productsData={productsData}
+                  fetchSales={fetchSales}
+                />
+              </div>
             </div>
-          </div>
-          <div className="m-3 p-1">
-            <h3 className="text-purple-500 font-semibold">Top Selling</h3>
-            <div className="flex">
-              <span className="mr-8">
-                <div className="text-gray-600 mt-1 font-semibold">5</div>
-                <span className="text-gray-400 text-sm">Last 7 days</span>
-              </span>
-              <span>
-                <div className="text-gray-600 mt-1 font-semibold">Rs2500</div>
-                <span className="text-gray-400 text-sm">Cost</span>
-              </span>
-            </div>
-          </div>
-          <div className="m-3 p-1">
-            <h3 className="text-red-500 font-semibold">Low Stocks</h3>
-            <div className="flex">
-              <span className="mr-8">
-                <div className="text-gray-600 mt-1 font-semibold">12</div>
-                <span className="text-gray-400 text-sm">Ordered</span>
-              </span>
-              <span>
-                <div className="text-gray-600 mt-1 font-semibold">2</div>
-                <span className="text-gray-400 text-sm">Not in stock</span>
-              </span>
+            <div className="mt-5 shadow-sm border rounded-lg overflow-x-auto">
+              <table className="w-full table-auto text-sm text-left">
+                <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                  <tr>
+                    <th className="py-3 px-6">Sale ID</th>
+                    <th className="py-3 px-6">Store Name</th>
+                    <th className="py-3 px-6">Quantity</th>
+                    <th className="py-3 px-6">No. Of Product</th>
+                    <th className="py-3 px-6">Total Amount</th>
+                    <th className="py-3 px-6">Added Date</th>
+                    <th className="py-3 px-6">Modified Date</th>
+                    <th className="py-3 px-6">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600 divide-y">
+                  {salesData.map((item) => (
+                    <tr key={item._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">{item._id.slice(-6)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{item.store_id.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{
+                        item?.quantity?.join(", ") + " (" + item?.quantity?.reduce((acc, cur) => acc + cur, 0) + ")"
+                      }
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">{item.products_id.length}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{item?.total_sale_amount}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{item.createdAt.slice(0, 10)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{item.updatedAt.slice(0, 10)}</td>
+                      <td className="text-right px-6 whitespace-nowrap">
+                        <button
+                          onClick={() => handleUpdateClick(item)}
+                          className="py-2 leading-none px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => deleteProduct(item._id)}
+                          className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full px-4 py-5 my-3 bg-white rounded-lg shadow">
-        {/* <div className="flex justify-between align-middle">
-          <h2 className=" text-gray-800 font-semibold truncate">Products</h2>
+      {selectedSale && (
+        <UpdateSaleModal
+          open={isUpdateModalOpen}
+          onClose={handleCloseUpdateModal}
+          sale={selectedSale}
+          storesData={storesData}
+          productsData={productsData}
+          fetchSales={fetchSales}
+        />
+      )}
+    </>
+  );
+}
 
-          <div className="flex gap-8 align-middle">
-            <div className="relative top-2 flex align-middle"></div>
-          </div>
-        </div> */}
 
-        <div className="overflow-x-auto mt-2">
-          <div className="max-w-screen-xl mx-auto px-4">
-            <div className="items-start justify-between md:flex">
-              <div className="max-w-lg">
-                <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                  Sales
-                </h3>
-              </div>
-              <div className="mt-3 md:mt-0 flex align-middle">
-                {/* <details className="group relative top-2 flex align-middle mr-4 [&_summary::-webkit-details-marker]:hidden">
+
+{/* <details className="group relative top-2 flex align-middle mr-4 [&_summary::-webkit-details-marker]:hidden">
                   <summary className="flex items-center gap-2 pb-1 text-gray-900 transition cursor-pointer">
                     <span className="text-sm font-medium"> Availability </span>
 
@@ -224,68 +244,7 @@ export default function Sales(params) {
                     </div>
                   </div>
                 </details> */}
-                <AddSaleModal
-                  storesData={storesData}
-                  productsData={productsData}
-                />
-              </div>
-            </div>
-            <div className="mt-5 shadow-sm border rounded-lg overflow-x-auto">
-              <table className="w-full table-auto text-sm text-left">
-                <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                  <tr>
-                    <th className="py-3 px-6">Sale ID</th>
-                    <th className="py-3 px-6">Store Name</th>
-                    <th className="py-3 px-6">Quantity</th>
-                    <th className="py-3 px-6">Added Date</th>
-                    <th className="py-3 px-6">Modified Date</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600 divide-y">
-                  {salesdata.map((item) => (
-                    <tr key={item._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {item._id.slice(-6)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {item.store_id.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {item.products_id.length}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {item.createdAt.slice(0, 10)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {item.updatedAt.slice(0, 10)}
-                      </td>
-                      <td className="text-right px-6 whitespace-nowrap">
-                        {/* <button className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg">
-                          Edit
-                        </button> */}
-                        <UpdateProductModal
-                          pid={item._id}
-                          pname={item.name}
-                          pmanufacturer={item.manufacturer}
-                          pstock={item.stock}
-                        />
-                        <button
-                          onClick={() => deleteProducts(item._id)}
-                          className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="w-full px-4 py-5 my-3 bg-white rounded-lg shadow">
+{/* <div className="w-full px-4 py-5 my-3 bg-white rounded-lg shadow">
         <div className="flex justify-between align-middle">
           <h2 className=" text-gray-800 font-semibold truncate">History</h2>
 
@@ -458,6 +417,3 @@ export default function Sales(params) {
           </table>
         </div>
       </div> */}
-    </>
-  );
-}

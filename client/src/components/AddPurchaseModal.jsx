@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-tailwindcss-select";
 
-const AddPurchaseModal = () => {
+const AddPurchaseModal = ({ fetchProductss }) => {
   const [showModal, setShowModal] = useState(false);
   const [purchasesdata, setPurchasesData] = useState({
     product_id: "",
@@ -13,7 +13,7 @@ const AddPurchaseModal = () => {
   const [productsData, setProductsData] = useState([]);
   useEffect(() => {
     fetchProducts();
-  }, [productsData]);
+  }, []);
 
   const fetchProducts = async () => {
     try {
@@ -45,6 +45,7 @@ const AddPurchaseModal = () => {
         stock: "",
       });
       alert("successful insert");
+      fetchProductss();
     } catch (error) {
       alert(error.response.data.error);
 

@@ -5,7 +5,7 @@ stores = require("../controller/stores");
 router.post("/", stores.addStore);
 router.get("/", stores.getStores);
 // router.get("/:id", products.getProductById);
-// router.delete("/:id", products.deleteProducts);
-// router.patch("/:id", products.updateProducts);
+router.delete("/:id", stores.deleteStores);
+router.put("/:id", stores.updateStores);
 
 module.exports = router;

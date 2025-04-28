@@ -102,7 +102,7 @@ function Signin() {
       </div>
 
       <div className="flex-1 flex items-center justify-center h-screen">
-        <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
+        <div className="w-full max-w-md space-y-8 p-4 bg-white text-gray-600 sm:px-0 shadow-lg shadow-black">
           <div className="">
             <img
               src={require("../assets/img/logo.png")}
@@ -126,7 +126,7 @@ function Signin() {
             </div>
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+          <form onSubmit={(e) => e.preventDefault()} className="space-y-5" >
             <div>
               <label className="font-medium">Email</label>
               <input

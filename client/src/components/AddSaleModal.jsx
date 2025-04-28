@@ -7,7 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const AddSaleModal = ({ storesData, productsData }) => {
+const AddSaleModal = ({ storesData, productsData, fetchSales }) => {
   const [showModal, setShowModal] = useState(false);
   const [salesdata, setSalesData] = useState({
     products_id: "",
@@ -36,6 +36,7 @@ const AddSaleModal = ({ storesData, productsData }) => {
         quantity: "",
         total_sale_amount: 0,
       });
+      fetchSales();
       alert("successful insert");
     } catch (error) {
       alert(error.response.data.error);

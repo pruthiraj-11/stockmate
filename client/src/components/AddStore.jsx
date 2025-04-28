@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const AddStore = () => {
+const AddStore = ({ fetchStores }) => {
   const [showModal, setShowModal] = useState(false);
   const [storesdata, setStoresData] = useState({
     name: "",
@@ -18,6 +18,7 @@ const AddStore = () => {
       console.log(res);
       setShowModal(false);
       setStoresData({ name: "", address: "", cost: "", sell: "" });
+      fetchStores();
       alert("successful insert");
     } catch (error) {
       alert(error.response.data.error);

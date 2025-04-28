@@ -150,7 +150,47 @@ const getSales = async (req, res) => {
 //   }
 // };
 
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  const { products_id, store_id, quantity, total_sale_amount } = req.body;
+
+  try {
+    const updatedSale = await Sale.findByIdAndUpdate(
+      id,
+      { products_id, store_id, quantity, total_sale_amount },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedSale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
+
+    res.status(200).json(updatedSale);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating sale", error });
+  }
+};
+
+// Delete Sale
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedSale = await Sale.findByIdAndDelete(id);
+
+    if (!deletedSale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
+
+    res.status(200).json({ message: "Sale deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting sale", error });
+  }
+};
+
 module.exports = {
   addSale,
   getSales,
+  updateSale,
+  deleteSale,
 };

@@ -5,7 +5,7 @@ const purchase = require("../controller/purchase");
 router.post("/", purchase.addPurchase);
 router.get("/", purchase.getPurchases);
 // router.get("/:id", products.getProductById);
-// router.delete("/:id", products.deleteProducts);
-// router.patch("/:id", products.updateProducts);
+router.delete("/:id", purchase.deletePurchase);
+router.put("/:id", purchase.updatePurchase);
 
 module.exports = router;

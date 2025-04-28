@@ -49,50 +49,49 @@ const getPurchases = async (req, res) => {
 //   }
 // };
 
-const deleteProducts = async (req, res) => {
+const updatePurchase = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findOne({ _id: id });
-    console.log(product);
-    if (!product) {
-      return res.json({ message: `Product with userId ${id} not found` });
+    const { product_id, stock, total_purchase_amount } = req.body;
+
+    const updatedPurchase = await Purchase.findByIdAndUpdate(
+      id,
+      { product_id, stock, total_purchase_amount },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedPurchase) {
+      return res.status(404).json({ message: "Purchase not found" });
     }
-    const deleted = await Product.findByIdAndDelete(product._id);
-    if (deleted) {
-      res.json({ message: `Product ${deleted} has been deleted Sucessfully` });
-    }
+
+    res.status(200).json(updatedPurchase);
   } catch (error) {
-    res.json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-const updateProducts = async (req, res) => {
-  const { id } = req.params;
-  const { name, stock, manufacturer } = req.body;
-
-  // if (!name || !stock || !manufacturer) {
-  //   return res.status(422).json({ error: "Please fill all fields" });
-  // }
-
+// Delete Purchase Controller
+const deletePurchase = async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      { name, stock, manufacturer },
-      { new: true }
-    );
+    const { id } = req.params;
 
-    if (!updatedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+    const deletedPurchase = await Purchase.findByIdAndDelete(id);
+
+    if (!deletedPurchase) {
+      return res.status(404).json({ message: "Purchase not found" });
     }
 
-    const products = await Product.find();
-    res.status(200).json(products);
+    res.status(200).json({ message: "Purchase deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 module.exports = {
   addPurchase,
   getPurchases,
+  updatePurchase,
+  deletePurchase,
 };

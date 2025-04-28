@@ -8,7 +8,7 @@ export default function Inventory(params) {
   useEffect(() => {
     fetchProducts();
     // console.log(productsData);
-  }, [productsData]);
+  }, []);
 
   const manufacturers = productsData.map((item) => {
     return item.manufacturer;
@@ -32,6 +32,7 @@ export default function Inventory(params) {
       const response = await axios.delete(
         `http://localhost:4000/products/${id}`
       );
+      fetchProducts();
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -204,7 +205,7 @@ export default function Inventory(params) {
                     </div>
                   </div>
                 </details>
-                <AddProductModal />
+                <AddProductModal fetchProducts={fetchProducts} />
               </div>
             </div>
             <div className="mt-5 shadow-sm border rounded-lg overflow-x-auto">
@@ -249,6 +250,7 @@ export default function Inventory(params) {
                           pname={item.name}
                           pmanufacturer={item.manufacturer}
                           pstock={item.stock}
+                          fetchProducts={fetchProducts}
                         />
                         <button
                           onClick={() => deleteProducts(item._id)}

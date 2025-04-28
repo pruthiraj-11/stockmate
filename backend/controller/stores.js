@@ -37,6 +37,30 @@ const getStores = async (req, res) => {
   }
 };
 
+const updateStores = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const store = await Store.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!store) {
+      return res.status(404).json({ successs: false });
+    }
+
+    return res.status(200).json({ msg: "updated" });
+  } catch (error) {
+    return res.status(500).json({ msg: "Internal Server error" });
+  }
+};
+const deleteStores = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const store = await Store.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Store Deleted" });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
 // const getProductById = async (req, res) => {
 //   try {
 //     const { id } = req.params;
@@ -94,4 +118,6 @@ const getStores = async (req, res) => {
 module.exports = {
   addStore,
   getStores,
+  updateStores,
+  deleteStores,
 };

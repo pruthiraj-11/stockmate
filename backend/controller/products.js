@@ -67,6 +67,7 @@ const deleteProducts = async (req, res) => {
 const updateProducts = async (req, res) => {
   const { id } = req.params;
   const { name, stock, manufacturer } = req.body;
+  console.log("allData", name, stock, manufacturer, id);
 
   // if (!name || !stock || !manufacturer) {
   //   return res.status(422).json({ error: "Please fill all fields" });

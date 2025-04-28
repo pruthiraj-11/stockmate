@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const AddProductModal = () => {
+const AddProductModal = ({ fetchProducts }) => {
   const [showModal, setShowModal] = useState(false);
   const [productsdata, setProductsData] = useState({
     name: "",
@@ -21,6 +21,7 @@ const AddProductModal = () => {
       setShowModal(false);
       setProductsData({ name: "", manufacturer: "", stock: "" });
       alert("successful insert");
+      fetchProducts();
     } catch (error) {
       alert(error.response.data.error);
 

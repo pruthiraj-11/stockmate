@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const UpdateProductModal = ({ pid, pname, pstock, pmanufacturer }) => {
+const UpdateProductModal = ({ pid, pname, pstock, pmanufacturer, fetchProducts }) => {
   const [showModal, setShowModal] = useState(false);
   const [productsdata, setProductsData] = useState({
     name: pname,
@@ -22,6 +22,7 @@ const UpdateProductModal = ({ pid, pname, pstock, pmanufacturer }) => {
       });
       console.log(res);
       setShowModal(false);
+      fetchProducts();
       alert("successfully Updated");
     } catch (error) {
       //   alert(error.response.data.error);
