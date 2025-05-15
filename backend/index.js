@@ -57,6 +57,42 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/resetpassword", async (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+  console.log('BODY---->', req.body);
+
+  if (!email || !oldPassword || !newPassword) {
+    return res.status(422).json({ error: "Please fill all the fields" });
+  }
+
+  try {
+    const user = await Users.findOne({ email: email });
+    console.log('User found:', user);
+
+    if (!user) {
+      return res.status(422).json({ error: "Email not found!" });
+    }
+
+    if (user.password !== oldPassword) {
+      return res.status(401).json({ error: "Old password is incorrect" });
+    }
+
+    if (oldPassword === newPassword) {
+      return res.status(400).json({ error: "New password must be different from the old password" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated successfully" });
+
+  } catch (error) {
+    console.error("Error in forgot-password:", error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 app.post("/signin", async (req, res) => {
   try {
     const { email, password } = req.body;

@@ -126,7 +126,7 @@ function Signin() {
             </div>
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5" >
+          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
             <div>
               <label className="font-medium">Email</label>
               <input
@@ -149,12 +149,20 @@ function Signin() {
                 value={userdata.password}
               />
             </div>
-            <button
-              onClick={signin}
-              className="w-full px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-            >
-              Sign in
-            </button>
+            <div className="space-y-2">
+              <Link
+                to={"/forgot-password"}
+                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+              >
+                Forgot password?
+              </Link>
+              <button
+                onClick={signin}
+                className="w-full px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+              >
+                Sign in
+              </button>
+            </div>
           </form>
         </div>
       </div>

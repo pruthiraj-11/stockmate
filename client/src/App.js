@@ -2,6 +2,7 @@ import "./App.css";
 import Dashboard from "./views/Dashboard";
 import Signin from "./views/Signin";
 import Signup from "./views/Signup";
+import ForgotPassword from "./views/ForgotPassword";
 import {
   Routes,
   Route,
@@ -43,6 +44,7 @@ function App() {
 
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>
