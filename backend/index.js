@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
+  console.log('BODY---->',req.body)
 
   if (!name || !email || !password) {
     return res.status(422).json({ error: "Please filled the all field" });
@@ -32,6 +33,7 @@ app.post("/register", async (req, res) => {
 
   try {
     const userExist = await Users.findOne({ email: email });
+    console.log('User exists---.',userExist)
 
     if (userExist) {
       return res.status(422).json({ error: "Email already exist!" });
@@ -44,6 +46,8 @@ app.post("/register", async (req, res) => {
     });
 
     const userReg = await user.save();
+
+    console.log('User reg',userReg)
 
     if (userReg) {
       res.status(200).json(user);

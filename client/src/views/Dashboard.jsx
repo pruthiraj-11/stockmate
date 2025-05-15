@@ -1,7 +1,8 @@
 import { Fragment, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import AvatarMenue from "../components/AvatarMenue";
 
@@ -15,6 +16,7 @@ const ProfileDropDown = (props) => {
     { title: "Settings", path: "javascript:void(0)" },
     { title: "Sign out", path: "/logout" },
   ];
+  const navigate=useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -68,6 +70,7 @@ const ProfileDropDown = (props) => {
           <button
             onClick={() => {
               authLocal.logout();
+              navigate("/signin")
             }}
             className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5"
           >
